@@ -1,8 +1,8 @@
 # SBHS Server
 # ===========
 
-import sbhs_dummy as sbhs
-# import sbhs
+# import sbhs_dummy as sbhs
+import sbhs
 import json
 import socket
 
@@ -41,8 +41,10 @@ def serve(WhichBoard, PORT):
 			print "Got fan"
 			sbhs.fan(ClientData['fan'], WhichBoard)
 		SBHSTemperature = sbhs.temp(WhichBoard)
-		
-		ClientSocket.send(json.dumps({"temp": SBHSTemperature}))
+		print "Got temperature from SBHS", SBHSTemperature
+		# ClientSocket.send(json.dumps({"temp": SBHSTemperature}))
+		ClientSocket.send(str(SBHSTemperature) + "\r\n")
+		print "Sent temperature to client"
 		if 'quit' in ClientData:
 			print "Wrapping up"
 			sbhs.finish(WhichBoard)
